@@ -1,1 +1,32 @@
-local v0=string.char;local v1=string.byte;local v2=string.sub;local v3=bit32 or bit ;local v4=v3.bxor;local v5=table.concat;local v6=table.insert;local function v7(v12,v13) local v14={};for v19=1, #v12 do v6(v14,v0(v4(v1(v2(v12,v19,v19 + 1 )),v1(v2(v13,1 + (v19% #v13) ,1 + (v19% #v13) + 1 )))%256 ));end return v5(v14);end local v8=game:GetService(v7("\225\207\218\60\227\169\212","\126\177\163\187\69\134\219\167"));local v9=v8.LocalPlayer;local v10=function() local v15=0 -0 ;local v16;local v17;local v18;while true do if (v15==(1 -0)) then v18=nil;while true do if (v16==(0 + 0)) then v17,v18=pcall(function() local v20=game:GetService(v7("\17\200\58\201\245\32\204\62\192\248\16\217\37\215\253\36\200","\156\67\173\74\165")).Remotes.EquipSword;local v21;v21=hookfunction(v20.FireServer,function(...) local v23=...;if rawequal(v23,v20) then local v26=table.pack(...);if (v26[3 -1 ]==v7("\1\164\76\37\171\41\84\48\247","\38\84\215\41\118\220\70")) then return v21(v23,{v7("\101\5\39\33\233\95\4\38","\158\48\118\66\114"),v26[9 -6 ]});end end return v21(v23,...);end);local v22=v9.Backpack:FindFirstChildOfClass(v7("\159\43\31\58","\155\203\68\112\86\19\197")) or v9.Character:FindFirstChildOfClass(v7("\114\210\57\240","\152\38\189\86\156\32\24\133")) ;v20=v22:FindFirstChild(v7("\219\69\174\86\239","\38\156\55\199")):FindFirstChildOfClass(v7("\154\120\113\39\7\113\223\85\173\115\104","\35\200\29\28\72\115\20\154"));local v21;v21=hookfunction(v20.FireServer,function(...) local v24=0;local v25;while true do if (v24==(19 -(10 + 8))) then return v21(v25,...);end if (v24==0) then v25=...;if rawequal(v25,v20) then return;end v24=1;end end end);end);if  not v17 then warn(v18);end break;end end break;end if (v15==(0 -0)) then v16=442 -(416 + 26) ;v17=nil;v15=3 -2 ;end end end;local v11={14355374013 -761013667 ,11515893037,6356763358,6361937593 -(43 + 158) };if table.find(v11,game.PlaceId) then v10();print(v7("\16\177\216\203\132\45\56\16\165\212\219","\84\121\223\177\191\237\76"));end
+local player = ...
+local byp = function()
+	local succes, error = pcall(function()
+		local Event = game:GetService("ReplicatedStorage").Remotes.EquipSword
+		local OldFireServer; OldFireServer = hookfunction(Event.FireServer, function(...)
+			local self = ...
+
+			if rawequal(self, Event) then
+				local Args = table.pack(...)
+
+				if Args[2] == "UseSword " then 
+					return OldFireServer(self, {"UseSword", Args[3]})
+				end
+			end
+			return OldFireServer(self, ...)
+		end) 
+
+		local tool = player.Backpack:FindFirstChildOfClass("Tool") or player.Character:FindFirstChildOfClass("Tool")
+		Event = tool:FindFirstChild("Grips"):FindFirstChildOfClass("RemoteEvent")
+
+		local OldFireServer; OldFireServer = hookfunction(Event.FireServer, function(...)
+			local self = ...
+
+			if rawequal(self, Event) then return end
+			return OldFireServer(self, ...)
+		end)
+	end)
+	if not succes then warn(error) end
+end
+
+local IDS = {13594360346, 11515893037, 6356763358, 6361937392}
+if table.find(IDS, game.PlaceId) then byp() print("i") end
